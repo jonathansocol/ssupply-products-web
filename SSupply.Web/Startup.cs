@@ -25,7 +25,11 @@ namespace SSupply.Web
         {
             var productServiceUrl = Configuration["Endpoints:ProductsServiceUrl"];
 
+            var connectionString = Configuration["ImageStorageService:ConnectionString"];
+            var container = Configuration["ImageStorageService:Container"];
+
             services.AddScoped<IProductsServiceClient>(x => new ProductsServiceClient(productServiceUrl));
+            services.AddScoped<IImageStorageService>(x => new AzureBlobStorageService(connectionString, container));
 
             services.AddMvc();
         }

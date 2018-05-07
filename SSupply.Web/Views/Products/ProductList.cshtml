@@ -1,0 +1,14 @@
+﻿@ViewData["Title"] = "Product list"
+
+@model IEnumerable<ProductDto>
+
+
+@foreach (var product in Model)
+{
+    <div>
+        <p>@product.Id</p>
+        <p>@product.Name</p>
+        <p>@product.Price</p>
+        <img src="@product.Photo" />
+    </div>
+}

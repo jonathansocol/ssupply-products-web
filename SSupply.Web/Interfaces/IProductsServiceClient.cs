@@ -8,11 +8,11 @@ namespace SSupply.Web.Interfaces
 {
     public interface IProductsServiceClient
     {
-        IEnumerable<ProductViewModel> GetAllProducts();
-        IEnumerable<ProductViewModel> SearchProductByName(string term);
-        ProductViewModel GetProductById(Guid id);
-        void InsertProduct(ProductDto productDto);
-        void UpdateProduct(ProductDto productDto);
+        List<ProductDto> GetAllProducts();
+        List<ProductDto> SearchProductByName(string term);
+        ProductDto GetProductById(Guid id);
+        void InsertProduct(ProductViewModel productDto);
+        void UpdateProduct(ProductDto product);
         void DeleteProduct(Guid id);
     }
 }

@@ -24,30 +24,32 @@ namespace SSupply.Web.Services
 
             request.AddUrlSegment("id", id);
 
-            var response = client.Execute(request);
+            client.Execute(request);
         }
 
-        public IEnumerable<ProductViewModel> GetAllProducts()
+        public List<ProductDto> GetAllProducts()
         {
             var client = new RestClient(_baseUrl);
             var request = new RestRequest("Products", Method.GET);
 
-            var response = client.Execute(request);
+            var response = client.Execute<List<ProductDto>>(request);
+
+            return response.Data;
         }
 
-        public ProductViewModel GetProductById(Guid id)
+        public ProductDto GetProductById(Guid id)
         {
             var client = new RestClient(_baseUrl);
             var request = new RestRequest("Products/{id}", Method.GET);
 
             request.AddUrlSegment("id", id);
 
-            var response = client.Execute<ProductViewModel>(request);
+            var response = client.Execute<ProductDto>(request);
 
-            return response;
+            return response.Data;
         }
 
-        public void InsertProduct(ProductDto productDto)
+        public void InsertProduct(ProductViewModel productDto)
         {
             var client = new RestClient(_baseUrl);
             var request = new RestRequest("Products", Method.POST);
@@ -55,10 +57,10 @@ namespace SSupply.Web.Services
             request.RequestFormat = DataFormat.Json;
             request.AddBody(productDto);
 
-            var response = client.Execute<ProductViewModel>(request);
+            client.Execute(request);
         }
 
-        public List<ProductViewModel> SearchProductByName(string term)
+        public List<ProductDto> SearchProductByName(string term)
         {
             var client = new RestClient(_baseUrl);
             var request = new RestRequest("Products/search/{term}", Method.GET);
@@ -67,20 +69,20 @@ namespace SSupply.Web.Services
 
             var response = client.Execute<List<ProductDto>>(request);
 
-            return response;
+            return response.Data;
         }
 
-        public void UpdateProduct(ProductDto productDto)
+        public void UpdateProduct(ProductDto product)
         {
             var client = new RestClient(_baseUrl);
             var request = new RestRequest("Products/{id}", Method.PUT);
 
-            request.AddUrlSegment("id", productDto.Id);
+            request.AddUrlSegment("id", product.Id);
 
             request.RequestFormat = DataFormat.Json;
-            request.AddBody(productDto);
+            request.AddBody(product);
 
-            client.Execute<ProductViewModel>(request);
+            client.Execute(request);
         }
     }
 }

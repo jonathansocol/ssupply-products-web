@@ -1,0 +1,14 @@
+﻿@ViewData["Title"] = "Delete Product"
+
+@model ProductDto
+
+
+@using (Html.BeginForm("Remove", "Products"))
+{
+    @Html.HiddenFor(x => x.Id)
+    <p>@Html.LabelFor(x => x.Name)</p>
+    @Html.HiddenFor(x => x.Photo)
+
+    <input type="submit" value="Delete" />
+    <input type="button" value="Cancel" onclick="window.location.href='@Url.Action("Details", "Products")'" />
+}

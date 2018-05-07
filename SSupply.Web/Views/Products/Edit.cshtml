@@ -1,0 +1,14 @@
+﻿@ViewData["Title"] = "Edit Product"
+
+@model ProductEditDto
+
+
+@using (Html.BeginForm("Update", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.Id)
+    <p>@Html.TextAreaFor(x => x.Name)</p>
+    <p>@Html.TextAreaFor(x => x.Price)</p>
+    <p><input type="file" name="Photo" /></p>
+
+    <p><input type="submit" value="Submit" /></p>
+}

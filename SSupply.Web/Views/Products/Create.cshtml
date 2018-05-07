@@ -1,0 +1,13 @@
+﻿@ViewData["Title"] = "Create new Product"
+
+@model ProductInsertDto
+
+
+@using (Html.BeginForm("Insert", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <p>@Html.TextAreaFor(x => x.Name)</p>
+    <p>@Html.TextAreaFor(x => x.Price)</p>
+    <p><input type="file" name="Photo" /></p>
+
+    <p><input type="submit" value="Submit" /></p>
+}
