@@ -1,10 +1,23 @@
-﻿@ViewData["Title"] = "Product Details"
+﻿@model ProductDto
 
-@model ProductDto
+<div class="form-group">
+    <div class="col-lg-6">
+        @Html.LabelFor(x => x.Id)
+        @Html.TextBoxFor(x => x.Id, new { @class = "form-control", @readonly = "true" })
 
-<div>
-    <p>@Model.Id</p>
-    <p>@Model.Name</p>
-    <p>@Model.Price</p>
-    <img src="@Model.Photo" />
+        @Html.LabelFor(x => x.Name)
+        @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @readonly = "true" })
+
+        @Html.LabelFor(x => x.Price)
+        @Html.TextBoxFor(x => x.Price, new { @class = "form-control", @readonly = "true" })
+
+        @Html.LabelFor(x => x.LastModified)
+        @Html.TextBoxFor(x => x.LastModified, new { @class = "form-control", @readonly = "true" })
+    </div>
+    <div class="col-lg-6">
+        @Html.LabelFor(x => x.Photo)
+        <img src="@Model.Photo" style="width:100%" />
+    </div>   
 </div>
+
+<a href="@Url.Action("ProductList", "Products")">Back to list</a>

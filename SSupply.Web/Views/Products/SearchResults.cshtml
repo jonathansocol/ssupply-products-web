@@ -1,0 +1,28 @@
+﻿@model IEnumerable<ProductDto>
+
+<a href="@Url.Action("ProductList", "Products")">Back to list</a>
+<h3>Search results:</h3>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Last Modified Date</th>
+            <th colspan="3">Operations</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+        <tr>
+            <td>@product.Name</td>
+            <td>@product.Price</td>
+            <td>@product.LastModified</td>
+            <td>@Html.ActionLink("Details", "Details", "Products", new { product.Id })</td>
+            <td>@Html.ActionLink("Edit", "Edit", "Products", new { product.Id })</td>
+            <td>@Html.ActionLink("Delete", "Delete", "Products", new { product.Id })</td>
+        </tr>
+        }
+    </tbody>
+</table>

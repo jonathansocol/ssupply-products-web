@@ -1,14 +1,14 @@
-﻿@ViewData["Title"] = "Delete Product"
-
-@model ProductDto
+﻿@model ProductDto
 
 
 @using (Html.BeginForm("Remove", "Products"))
 {
-    @Html.HiddenFor(x => x.Id)
-    <p>@Html.LabelFor(x => x.Name)</p>
-    @Html.HiddenFor(x => x.Photo)
 
-    <input type="submit" value="Delete" />
-    <input type="button" value="Cancel" onclick="window.location.href='@Url.Action("Details", "Products")'" />
+    <p>You are about to delete the product @Html.DisplayTextFor(x => x.Name)</p>
+
+    @Html.HiddenFor(x => x.Photo)
+    @Html.HiddenFor(x => x.Id)
+
+    <input type="submit" value="Confirm" class="btn btn-danger" />
+    <input type="button" value="Cancel" class="btn btn-primary" onclick="window.location.href='@Url.Action("ProductList", "Products")'" />
 }

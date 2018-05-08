@@ -30,6 +30,7 @@ namespace SSupply.Web
 
             services.AddScoped<IProductsServiceClient>(x => new ProductsServiceClient(productServiceUrl));
             services.AddScoped<IImageStorageService>(x => new AzureBlobStorageService(connectionString, container));
+            services.AddScoped<IExcelExportService, ExcelExportService>();
 
             services.AddMvc();
         }

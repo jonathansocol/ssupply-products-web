@@ -1,14 +1,21 @@
-﻿@ViewData["Title"] = "Edit Product"
-
-@model ProductEditDto
+﻿@model ProductEditDto
 
 
 @using (Html.BeginForm("Update", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.HiddenFor(x => x.Id)
-    <p>@Html.TextAreaFor(x => x.Name)</p>
-    <p>@Html.TextAreaFor(x => x.Price)</p>
-    <p><input type="file" name="Photo" /></p>
+    <div class="form-group">
+        @Html.HiddenFor(x => x.Id)
+        @Html.LabelFor(x => x.Name)
+        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
 
-    <p><input type="submit" value="Submit" /></p>
+        @Html.LabelFor(x => x.Price)
+        @Html.TextBoxFor(x => x.Price, new { @class = "form-control" })
+
+        @Html.LabelFor(x => x.Photo)
+        <input type="file" name="Photo" class="form-control-file" />
+    </div>
+
+    <input type="submit" value="Submit" class="btn btn-primary" />
+
+    <a href="@Url.Action("ProductList", "Products")">Back to list</a>
 }

@@ -1,7 +1,6 @@
-﻿@ViewData["Title"] = "Error"
-
-@model ErrorMessageViewModel
-
+﻿@model ErrorMessageViewModel
 
 <h1>@Model.Title</h1>
 <p>@Model.Description</p>
+
+<a href="@Url.Action("ProductList", "Products")">Back to list</a>

@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using SSupply.Web.Interfaces;
 using SSupply.Web.Models;
@@ -11,13 +15,16 @@ namespace SSupply.Web.Controllers
     {
         private readonly IImageStorageService _imageStorageService;
         private readonly IProductsServiceClient _productsServiceClient;
+        private readonly IExcelExportService _excelExportService;
 
         public ProductsController(
-            IImageStorageService imageStorageService, 
-            IProductsServiceClient productsServiceClient)
+            IImageStorageService imageStorageService,
+            IProductsServiceClient productsServiceClient,
+            IExcelExportService excelExportService)
         {
             _imageStorageService = imageStorageService;
             _productsServiceClient = productsServiceClient;
+            _excelExportService = excelExportService;
         }
 
         [HttpGet]
@@ -47,7 +54,7 @@ namespace SSupply.Web.Controllers
         {
             var products = _productsServiceClient.SearchProductByName(term);
 
-            return RedirectToAction("SearchResults", products);
+            return View("SearchResults", products);
         }
 
         [HttpGet]
@@ -125,7 +132,7 @@ namespace SSupply.Web.Controllers
             {
                 imageUrl = originalProduct.Photo;
             }
-            
+
             var productModel = new ProductDto
             {
                 Id = product.Id,
@@ -148,7 +155,7 @@ namespace SSupply.Web.Controllers
 
             if (product == null)
             {
-                return RedirectToAction("Error", new ErrorMessageViewModel("Error" ,"The product was not found."));
+                return RedirectToAction("Error", new ErrorMessageViewModel("Error", "The product was not found."));
             }
 
             return View(product);
@@ -169,6 +176,17 @@ namespace SSupply.Web.Controllers
         public IActionResult Error(ErrorMessageViewModel errorMessage)
         {
             return View(errorMessage);
+        }
+
+        [HttpGet]
+        public IActionResult ExportProducts()
+        {
+            var products = _productsServiceClient.GetAllProducts();
+            var titles = new List<string[]> { new string[] { "Id", "Name", "PhotoUrl", "Price", "Last Modified" } };
+            var excelFile = _excelExportService.ExportToExcel(products, "Products", titles);
+            var fileName = $"Suitsupply Products - { DateTime.UtcNow.ToString("s") }.xlsx";
+
+            return File(excelFile, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
         }
     }
 }
