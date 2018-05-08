@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using SSupply.Web.Interfaces;
 using SSupply.Web.Models;
@@ -90,8 +86,6 @@ namespace SSupply.Web.Controllers
 
             _productsServiceClient.InsertProduct(productModel);
 
-            ViewData["Message"] = "New product created";
-
             return RedirectToAction("ProductList");
         }
 
@@ -123,6 +117,12 @@ namespace SSupply.Web.Controllers
             string imageUrl = string.Empty;
             var originalProduct = _productsServiceClient.GetProductById(product.Id);
 
+            if (originalProduct == null)
+            {
+                var errorMessage = new ErrorMessageViewModel("Error", "The product was not found.");
+                return RedirectToAction("Error", errorMessage);
+            }
+
             if (product.Photo != null)
             {
                 imageUrl = await _imageStorageService.UploadFile(product.Photo);
@@ -143,8 +143,6 @@ namespace SSupply.Web.Controllers
 
             _productsServiceClient.UpdateProduct(productModel);
 
-            ViewData["Message"] = "The product was updated";
-
             return RedirectToAction("ProductList");
         }
 
@@ -155,7 +153,8 @@ namespace SSupply.Web.Controllers
 
             if (product == null)
             {
-                return RedirectToAction("Error", new ErrorMessageViewModel("Error", "The product was not found."));
+                var errorMessage = new ErrorMessageViewModel("Error", "The product was not found.");
+                return RedirectToAction("Error", errorMessage);
             }
 
             return View(product);
@@ -166,8 +165,6 @@ namespace SSupply.Web.Controllers
         {
             _imageStorageService.DeleteFile(product.Photo);
             _productsServiceClient.DeleteProduct(product.Id);
-
-            ViewData["Message"] = $"The product '{product.Name}' has been deleted.";
 
             return RedirectToAction("ProductList");
         }
