@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SSupply.Web.Interfaces;
+using SSupply.Web.Services;
 
 namespace SSupply.Web
 {
@@ -21,6 +23,15 @@ namespace SSupply.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var productServiceUrl = Configuration["Endpoints:ProductsServiceUrl"];
+
+            var connectionString = Configuration["ImageStorageService:ConnectionString"];
+            var container = Configuration["ImageStorageService:Container"];
+
+            services.AddScoped<IProductsServiceClient>(x => new ProductsServiceClient(productServiceUrl));
+            services.AddScoped<IImageStorageService>(x => new AzureBlobStorageService(connectionString, container));
+            services.AddScoped<IExcelExportService, ExcelExportService>();
+
             services.AddMvc();
         }
 

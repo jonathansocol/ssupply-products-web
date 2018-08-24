@@ -1,0 +1,20 @@
+﻿@model ProductInsertDto
+
+
+@using (Html.BeginForm("Insert", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-group">
+        @Html.LabelFor(x => x.Name)
+        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+
+        @Html.LabelFor(x => x.Price)
+        @Html.TextBoxFor(x => x.Price, new { @class = "form-control" })
+
+        @Html.LabelFor(x => x.Photo)
+        <input type="file" name="Photo" class="form-control-file" />
+    </div>
+
+    <input type="submit" value="Submit" class="btn btn-primary" />
+    <a href="@Url.Action("ProductList", "Products")">Back to list</a>
+}
+

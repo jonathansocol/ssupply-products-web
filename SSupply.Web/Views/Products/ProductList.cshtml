@@ -1,0 +1,38 @@
+﻿@model IEnumerable<ProductDto>
+
+<div>
+    @using (Html.BeginForm("Search", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="form-group">
+            <input type="text" name="term" placeholder="Type the name of a product..." />
+            <input type="submit" value="Search" />
+        </div>
+    }
+    <a href="@Url.Action("Create", "Products")">Add product</a> |
+    <a href="@Url.Action("ExportProducts", "Products")">Export to Excel</a>
+</div>
+
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Last Modified Date</th>
+            <th colspan="3">Operations</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Price</td>
+                <td>@product.LastModified</td>
+                <td>@Html.ActionLink("Details", "Details", "Products", new { product.Id })</td>
+                <td>@Html.ActionLink("Edit", "Edit", "Products", new { product.Id })</td>
+                <td>@Html.ActionLink("Delete", "Delete", "Products", new { product.Id })</td>
+            </tr>
+        }
+    </tbody>
+</table>
